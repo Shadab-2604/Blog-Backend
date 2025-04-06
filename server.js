@@ -12,6 +12,7 @@ dotenv.config()
 
 // Create Express app
 const app = express()
+const PORT = process.env.PORT || 5000
 
 // Middleware
 app.use(express.json())
@@ -38,6 +39,9 @@ app.use("/api/upload", uploadRoutes)
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" })
 })
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running")
+})
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -45,5 +49,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong!" })
 })
 
-// ✅ Don't start server here (Vercel handles that)
-export default app
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
